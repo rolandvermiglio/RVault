@@ -4,6 +4,8 @@
 
 #ifndef RVAULT_RVAULT_RANDOM_H
 #define RVAULT_RVAULT_RANDOM_H
+#include <stddef.h>
+#include <stdint.h>
 
 
 /**
