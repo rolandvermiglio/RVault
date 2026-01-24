@@ -9,16 +9,13 @@
 
 #if defined(_WIN64) || defined(_WIN32)
 #define RVAULT_PLATFORM_WINDOWS 1 //A.K.A. SPYWARE_OS
-#endif
-#if defined(__APPLE__) && defined(__MACH__)
+#elif defined(__APPLE__) && defined(__MACH__)
 #define RVAULT_PLATFORM_MACOS 1
-#endif
-#if defined(__linux__)
+#elif defined(__linux__)
 #define RVAULT_PLATFORM_LINUX 1
-#endif
-#if defined(__unix__)
+#elif defined(__unix__)
 #define RVAULT_PLATFORM_UNIX 1
-#elif
+#else
 #error "Unsupported platform"
 #endif
 #endif

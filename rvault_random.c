@@ -30,14 +30,17 @@
  */
 int rvault_random_bytes(uint8_t *out, size_t len){
         //Generate Byte
-        uint8_t byte;
     #if defined(RVAULT_PLATFORM_WINDOWS)
         //Windows CSPRNG
-        BCryptGenRandom()
+        NTSTATUS status = BCryptGenRandom(NULL, out, (ULONG) len, BCRYPT_USE_SYSTEM_PREFERRED_RNG);
+        if (!BCRYPT_SUCCESS(status)) {
+            return -69;
+        }
+        return 0;
 
     #elif defined(RVAULT_PLATFORM_MACOS)
         //MacOS CSPRNG
-    #elif defined(RVAULT_PLATFORM_LINUX)
+    #elif defined(RVAULT_PLATFORM_LINUX) || defined(RVAULT_PLATFORM_UNIX)
         size_t filled = 0;
         while (filled < len) {
             ssize_t n = getrandom(out + filled, len - filled, 0);
@@ -49,10 +52,9 @@ int rvault_random_bytes(uint8_t *out, size_t len){
                 return -69;
             }
         }
-    #elif defined(RVAULT_PLATFORM_UNIX)
-        //Unix CSPRNG
+    return 0;
     #else
-        return -25;
+        return -25; // Unsupported platform
     #endif
     return 0;
 }
