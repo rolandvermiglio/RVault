@@ -3,11 +3,11 @@
 //
 
 
-#include "rvault_random.h"
+#include "../headers/rvault_random.h"
 
 #include <stdint.h>
 
-#include "rvault_platform.h"
+#include "../headers/rvault_platform.h"
 #include <stdbool.h>
 
 #if RVAULT_PLATFORM_WINDOWS

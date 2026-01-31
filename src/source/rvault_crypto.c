@@ -2,9 +2,9 @@
 // Created by rverm on 1/25/2026.
 //
 
-#include "rvault_crypto.h"
-#include "rvault_platform.h"
-#include "rvault_random.h"
+#include "../headers/rvault_crypto.h"
+#include "../headers/rvault_platform.h"
+#include "../headers/rvault_random.h"
 #include <sodium.h>
 #include <string.h>
 
@@ -44,12 +44,11 @@ int rvault_encrypt(const uint8_t *plaintext,
                     size_t plaintext_len,
                     const uint8_t *key,
                     uint8_t *ciphertext,
+                    size_t *ciphertext_len,
                     uint8_t *nonce) {
 
     randombytes_buf(nonce, crypto_secretbox_NONCEBYTES);
-    return crypto_secretbox_easy(ciphertext, plaintext, plaintext_len, nonce, key);
-
-
+    return crypto_aead_chacha20poly1305_encrypt(ciphertext, ciphertext_len, plaintext, plaintext_len, NULL, 0, NULL, nonce, key) == 0;
 }
 
 /*
@@ -58,12 +57,18 @@ int rvault_encrypt(const uint8_t *plaintext,
  * -1 - failed verification
  * 0 - success
  */
-int rvault_decrypt(const uint8_t *ciphertext,
-                    size_t ciphertext_len,
-                    const uint8_t *key,
-                    const uint8_t *nonce,
-                    uint8_t *plaintext) {
+    int rvault_decrypt(const uint8_t *ciphertext,
+                        size_t ciphertext_len,
+                        const uint8_t *key,
+                        uint8_t *plaintext,
+                        size_t *plaintext_len,
+                        uint8_t *nonce)  {
 
-    return crypto_secretbox_open_easy(plaintext, ciphertext, ciphertext_len, nonce, key);
+        return crypto_aead_chacha20poly1305_decrypt(plaintext, plaintext_len,
+                                             NULL,
+                                             ciphertext, ciphertext_len,
+                                             NULL,
+                                             0,
+                                             nonce, key);
 
-}
+    }

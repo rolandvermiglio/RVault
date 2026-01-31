@@ -1,8 +1,6 @@
-//
-// Created by rverm on 1/8/2026.
-//
-
-/* rvault_platform.h */
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #ifndef RVAULT_PLATFORM_H
 #define RVAULT_PLATFORM_H
@@ -18,5 +16,22 @@
 #else
 #error "Unsupported platform"
 #endif
+
+
+
+
+/*
+ *
+ * return codes
+ * -1: generic error
+ * -2: incorrect out buffer size
+ * 0: success
+ *
+ */
+
+int rvault_get_username(char *out);
 #endif
 
+#ifdef __cplusplus
+    }
+#endif

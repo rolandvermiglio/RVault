@@ -1,6 +1,9 @@
 //
 // Created by rverm on 1/25/2026.
 //
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #ifndef RVAULT_RVAULT_CRYPTO_H
 #define RVAULT_RVAULT_CRYPTO_H
@@ -29,6 +32,7 @@ int rvault_encrypt(const uint8_t *plaintext,
                     size_t plaintext_len,
                     const uint8_t *key,
                     uint8_t *ciphertext,
+                    size_t *ciphertext_len,
                     uint8_t *nonce);
 
 
@@ -38,9 +42,14 @@ int rvault_encrypt(const uint8_t *plaintext,
 int rvault_decrypt(const uint8_t *ciphertext,
                     size_t ciphertext_len,
                     const uint8_t *key,
-                    const uint8_t *nonce,
-                    uint8_t *plaintext);
+                    uint8_t *plaintext,
+                    size_t *plaintext_len,
+                    uint8_t *nonce);
 
 
 
 #endif //RVAULT_RVAULT_CRYPTO_H
+
+#ifdef __cplusplus
+    }
+#endif

@@ -11,12 +11,17 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 find_package(unofficial-sodium CONFIG REQUIRED)
 
 add_executable(rvault
-        main.c
-        rvault_random.c
-        rvault_random.h
-        rvault_platform.h
-        rvault_crypto.h
-        rvault_crypto.c
+        src/source/rvault_random.c
+        src/source/rvault_crypto.c
+        src/source/rvault_auth.c
+        src/source/rvault_fileio.cpp
+        src/source/rvault_main.cpp
+        src/source/rvault_platform.c
+        src/headers/rvault_random.h
+        src/headers/rvault_crypto.h
+        src/headers/rvault_auth.h
+        src/headers/rvault_fileio.h
+        src/headers/rvault_platform.h
 )
 
 target_link_libraries(rvault PRIVATE unofficial-sodium::sodium)
