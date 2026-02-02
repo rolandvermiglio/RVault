@@ -38,9 +38,6 @@ nclude <unistd.h>
  *----------------------
  */
 
-class fileEntry {
-
-};
 
 /*
  * Gets a specific path based on operating system
@@ -110,4 +107,8 @@ int rvault_newFile(std::string name, std::string filepath) {
  * 0: success
  * -1: failure
  */
-int rvault_file_init(bool source_Dir);
+int rvault_file_init(bool source_Dir) {
+    if (source_Dir) {
+
+    }
+};

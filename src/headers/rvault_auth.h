@@ -13,7 +13,7 @@ extern "C" {
 #include <stdlib.h>
 #include <stdint.h>
 
-int rvault_authenticate(uint8_t *key1, uint8_t *key2, size_t len);
+int rvault_authenticate(uint8_t *key1, uint8_t *key2, size_t len); //will change later so that the key doesn't need to be stored
 
 #endif //RVAULT_AUTH_H
 
