@@ -12,11 +12,6 @@ extern "C" {
 #include <stddef.h>
 
 
-/*
- * Function for salt generation
- */
-int rvault_generate_salt(size_t len, uint8_t *out);
-
 
 
 /*

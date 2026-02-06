@@ -24,6 +24,8 @@ nclude <unistd.h>
 #endif
 
 
+namespace fs = std::filesystem;
+
 /*
  *
  * rvault file = .rvault extension
@@ -78,24 +80,19 @@ std::string rvault_getPath() {
  * -3: File Already Exists
  * -1: general failure
  */
-int rvault_newFile(std::string name, std::string filepath) {
-    std::string full_path = filepath;
-    if (filepath.back() == '/' || filepath.back() == '\\') {
-        full_path += name;
-    } else {
-        full_path += SLASH + name;
-    }
+int rvault_newFile(fs::path path) {
 
-    if (std::filesystem::exists(full_path)) {
+    if (std::filesystem::exists(path)) {
         return -3;
     }
 
-    std::ofstream NewFile(full_path);
+    std::ofstream NewFile(path);
 
     if (!NewFile) {
         return -1;
     }
 
+    NewFile.close();
     return 0;
 };
 
@@ -109,6 +106,30 @@ int rvault_newFile(std::string name, std::string filepath) {
  */
 int rvault_file_init(bool source_Dir) {
     if (source_Dir) {
-
+        //do later
     }
 };
+
+
+/*
+ * Copy file object to out pointer and return an integer status code
+ *
+ * 0: success
+ * -2: file doesn't exist
+ * -1: failure
+ */
+int rvault_getFile(std::string name, std::string filepath, std::fstream &out) {
+    fs::path full_path = fs::path(filepath) / name;
+
+    if (!std::filesystem::exists(full_path)) {
+        return -2;
+    }
+
+    out.open(full_path);
+
+    if (!out.is_open()) {
+        return -1;
+    }
+
+    return 0;
+}

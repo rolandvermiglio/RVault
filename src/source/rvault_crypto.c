@@ -8,18 +8,6 @@
 #include <sodium.h>
 #include <string.h>
 
-/*
- * Function for salt generation
- *
-* Return Codes:
- * 0: Success
- * -25: Platform Error (If somehow preprocessor failed to terminate compilation)
- * -69: generation error
- */
-int rvault_generate_salt(size_t len, uint8_t *out) {
-   int status = rvault_random_bytes(out, len);
-    return status;
-}
 
 
 /*

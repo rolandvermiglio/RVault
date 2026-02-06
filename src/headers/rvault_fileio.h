@@ -33,4 +33,11 @@ int rvault_newFile(std::string name, std::string filepath);
 int rvault_file_init(bool source_Dir);
 
 
+/*
+ * Get entire file contents and return an integer status code
+ */
+
+int rvault_getFile(std::string name, std::string filepath, std::fstream &out);
+
+
 

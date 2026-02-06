@@ -28,14 +28,13 @@ private:
 public:
     rvault_password_entry(std::string name, std::string username, uint8_t* nonce, uint8_t* ciphertext);
 
-    void getNonce(uint8_t* out);
+    std::vector<uint8_t> getNonce(uint8_t* out = nullptr);
 
     std::string getName();
 
     std::string getUsername();
 
-
-
+    std::vector<uint8_t> getCiphertext(uint8_t* out = nullptr);
 
 
 };

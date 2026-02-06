@@ -9,7 +9,7 @@
 class rvault_file {
 
 private:
-    std::string header;
+    int temp;
 
 };
 
