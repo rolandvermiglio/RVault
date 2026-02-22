@@ -16,7 +16,7 @@
  *  0 - success
  */
 int rvault_derive_key(const char* password, const uint8_t *salt, uint8_t *key, size_t key_len) {
-    int status = crypto_pwhash(key, key_len, password, strlen(password), salt, crypto_pwhash_opslimit_min(), crypto_pwhash_MEMLIMIT_MIN, crypto_pwhash_alg_default());
+    int status = crypto_pwhash(key, key_len, password, strlen(password), salt, crypto_pwhash_opslimit_interactive(), crypto_pwhash_memlimit_interactive(), crypto_pwhash_alg_default());
     return status;
 }
 
@@ -34,9 +34,9 @@ int rvault_encrypt(const uint8_t *plaintext,
                     uint8_t *ciphertext,
                     size_t *ciphertext_len,
                     uint8_t *nonce) {
-
-    randombytes_buf(nonce, crypto_secretbox_NONCEBYTES);
-    return crypto_aead_chacha20poly1305_encrypt(ciphertext, ciphertext_len, plaintext, plaintext_len, NULL, 0, NULL, nonce, key) == 0;
+    randombytes_buf(nonce, crypto_aead_chacha20poly1305_NPUBBYTES);
+    int rc = crypto_aead_chacha20poly1305_encrypt(ciphertext, ciphertext_len, plaintext, plaintext_len, NULL, 0, NULL, nonce, key);
+    return (rc == 0) ? 0 : -1;
 }
 
 /*
@@ -52,11 +52,12 @@ int rvault_encrypt(const uint8_t *plaintext,
                         size_t *plaintext_len,
                         uint8_t *nonce)  {
 
-        return crypto_aead_chacha20poly1305_decrypt(plaintext, plaintext_len,
+        int rc = crypto_aead_chacha20poly1305_decrypt(plaintext, plaintext_len,
                                              NULL,
                                              ciphertext, ciphertext_len,
                                              NULL,
                                              0,
-                                             nonce, key);
+                                             nonce, key) * -1;
+        return (rc == 0) ? 0 : -1;
 
     }
