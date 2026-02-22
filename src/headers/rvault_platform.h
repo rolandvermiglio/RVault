@@ -32,6 +32,17 @@ extern "C" {
 int rvault_get_username(char *out);
 #endif
 
+
+/*
+ *platform codes
+ * 1229- Windows
+ * 1256- Linux
+ * 1345- MACOS
+ * 1350- Unix
+ * -1- error
+ */
+int rvault_get_platform();
+
 #ifdef __cplusplus
     }
 #endif

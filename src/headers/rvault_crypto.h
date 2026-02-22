@@ -27,7 +27,7 @@ int rvault_encrypt(const uint8_t *plaintext,
                     size_t plaintext_len,
                     const uint8_t *key,
                     uint8_t *ciphertext,
-                    size_t *ciphertext_len,
+                    unsigned long long *ciphertext_len,
                     uint8_t *nonce);
 
 
@@ -38,7 +38,7 @@ int rvault_decrypt(const uint8_t *ciphertext,
                     size_t ciphertext_len,
                     const uint8_t *key,
                     uint8_t *plaintext,
-                    size_t *plaintext_len,
+                    unsigned long long *plaintext_len,
                     uint8_t *nonce);
 
 
