@@ -1,7 +1,3 @@
-//
-// Created by rverm on 1/30/2026.
-//
-
 #ifdef __cplusplus
 extern "C" {
 #endif

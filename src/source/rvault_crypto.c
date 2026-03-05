@@ -1,12 +1,9 @@
-//
-// Created by rverm on 1/25/2026.
-//
-
 #include "../headers/rvault_crypto.h"
 #include "../headers/rvault_platform.h"
 #include "../headers/rvault_random.h"
 #include <sodium.h>
 #include <string.h>
+#include "../headers/rvault_constants.h"
 
 
 
@@ -35,7 +32,7 @@ int rvault_encrypt(const uint8_t *plaintext,
                     unsigned long long *ciphertext_len,
                     uint8_t *nonce) {
     randombytes_buf(nonce, crypto_aead_xchacha20poly1305_ietf_NPUBBYTES);
-    int rc = crypto_aead_chacha20poly1305_ietf_encrypt(ciphertext, ciphertext_len,
+    int rc = crypto_aead_xchacha20poly1305_ietf_encrypt(ciphertext, ciphertext_len,
                                                     plaintext, plaintext_len,
                                                     NULL, 0, NULL,
                                                     nonce, key);
@@ -55,12 +52,12 @@ int rvault_encrypt(const uint8_t *plaintext,
                         unsigned long long *plaintext_len,
                         uint8_t *nonce)  {
 
-        int rc = crypto_aead_chacha20poly1305_ietf_decrypt(plaintext, plaintext_len,
+        int rc = crypto_aead_xchacha20poly1305_ietf_decrypt(plaintext, plaintext_len,
                                              NULL,
                                              ciphertext, ciphertext_len,
                                              NULL,
                                              0,
-                                             nonce, key) * -1;
+                                             nonce, key);
         return (rc == 0) ? 0 : -1;
 
     }

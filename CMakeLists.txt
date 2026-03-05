@@ -20,7 +20,9 @@ add_executable(rvault
         src/headers/rvault_crypto.h
         src/headers/rvault_auth.h
         src/headers/rvault_platform.h
-        src/headers/salt.h
+        src/headers/rvault_file.h
+        src/headers/rvault_constants.h
+        src/source/rvault_file.cpp
 )
 
 target_link_libraries(rvault PRIVATE unofficial-sodium::sodium)

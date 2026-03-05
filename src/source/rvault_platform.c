@@ -1,6 +1,7 @@
 #include "../headers/rvault_platform.h"
 #include <string.h>
 #include <bits/local_lim.h>
+#include "../headers/rvault_constants.h"
 
 #if defined(RVAULT_PLATFORM_WINDOWS)
 #include <windows.h>

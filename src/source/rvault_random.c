@@ -1,14 +1,10 @@
-//
-// Created by rverm on 1/8/2026.
-//
-
-
 #include "../headers/rvault_random.h"
 
 #include <stdint.h>
 
 #include "../headers/rvault_platform.h"
 #include <stdbool.h>
+#include "../headers/rvault_constants.h"
 
 #if RVAULT_PLATFORM_WINDOWS
 #include <windows.h>
