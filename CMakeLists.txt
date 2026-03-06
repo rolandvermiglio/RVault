@@ -23,6 +23,7 @@ add_executable(rvault
         src/headers/rvault_file.h
         src/headers/rvault_constants.h
         src/source/rvault_file.cpp
+        src/headers/rvault_vault.h
 )
 
 target_link_libraries(rvault PRIVATE unofficial-sodium::sodium)

@@ -27,35 +27,17 @@
 #define RVAULT_RVAULT_FILE_H
 
 #include "../headers/rvault_constants.h"
+#include "../headers/rvault_vault.h"
 #include <iostream>
 #include <fstream>
+#include <optional>
 
-/*
- *
- */
-typedef struct {
-    uint8_t salt[SALT_SIZE];
-    uint8_t auth_nonce[NONCE_SIZE];
-    uint8_t auth_phrase[AUTH_PHRASE_CIPHER_SIZE];
-    uint32_t entry_count;
-} RVaultFileHeader;
 
 
 
 /*
  *
  */
-typedef struct {
-    uint8_t entry_name_nonce[NONCE_SIZE];
-    uint32_t entry_name_cipher_len;
-    uint8_t* entry_name_cipher;
-    uint8_t username_nonce[NONCE_SIZE];
-    uint32_t username_cipher_len;
-    uint8_t* username_cipher;
-    uint8_t password_nonce[NONCE_SIZE];
-    uint32_t password_cipher_len;
-    uint8_t* password_cipher;
-} RVaultFileEntry;
 
 class RVaultFile {
 public:
@@ -64,21 +46,21 @@ public:
      *
      */
     bool create(const std::string& path, const char *master_pword);
-    /*
-     *
-     */
-
-    bool open(const std::string& path, const char *master_pword);
 
     /*
      *
      */
-    bool addEntry(RVaultFileEntry& entry);
+    bool open(const std::string& path, const char *master_pword, std::vector<RVaultEntry>* entries);
 
     /*
      *
      */
-    bool getEntry(uint32_t index, RVaultFileEntry& out);
+    bool addEntry(RVaultEntry& entry);
+
+    /*
+     *
+     */
+    bool getEntry(uint32_t index, RVaultEntry& out);
 
     /*
      *
