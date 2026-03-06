@@ -43,11 +43,34 @@ class RVaultFile {
 public:
 
     /*
+     * Arguments:
+     *     const std::string &path :
+     *          Filepath to vault file
+     *
+     *     const char *master_pword :
+     *          Master password for vault
+     *
+     * Process:
+     * Create salt
+     * Derive key from master password
+     * Create random bytes for authentication phrase
+     * Encrypt auth phrase and generate nonce
      *
      */
     bool create(const std::string& path, const char *master_pword);
 
     /*
+     * Arguments:
+     *     const std::string &path :
+     *          Filepath to vault file
+     *     const char *master_pword :
+     *          Master password for vault
+     *     std::vector<RVaultEntry>* entries :
+     *          Pointer to vector of vault entries
+     *
+     *     Loads file into memory
+     *     Writes data to header property
+     *     Adds an entry to entries vector for each entry in file
      *
      */
     bool open(const std::string& path, const char *master_pword, std::vector<RVaultEntry>* entries);
