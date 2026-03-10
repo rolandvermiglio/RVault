@@ -12,6 +12,12 @@
 #define MAX_NAME_LEN 128
 #define MAX_USERNAME_LEN 128
 #define MAX_PASSWORD_LEN 128
-
+#define TESTING_PATH "../testFiles/testing.rvault"
+#define WINDOWS 1229
+#define MACOS 1345
+#define LINUX 1256
+#define UNIX 1350
+#define INVALID_PASSWORD_ERROR 12 //will change to throw custom exception later
+#define GENERIC_ERROR 13
 
 #endif //RVAULT_RVAULT_CONSTANTS_H

@@ -14,8 +14,6 @@
 
 #endif
 
-
-
 /*
  *platform codes
  * 1229: Windows
@@ -26,17 +24,17 @@
  */
 int rvault_get_platform() {
 #if defined(_WIN64) || defined(_WIN32)
-#define PLATFORM 1229
+#define PLATFORM WINDOWS
 #elif defined(__APPLE__) && defined(__MACH__)
-#define PLATFORM 1345
+#define PLATFORM MACOS
 #elif defined(__linux__)
-#define PLATFORM 1256
+#define PLATFORM LINUX
 #elif defined(__unix__)
-#define PLATFORM 1350
+#define PLATFORM UNIX
 #else
 #define PLATFORM -1
 #endif
-    int platform = PLATFORM;
+    const int platform = PLATFORM;
     return platform;
 }
 

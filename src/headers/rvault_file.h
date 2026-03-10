@@ -32,7 +32,7 @@
 #include <fstream>
 #include <optional>
 
-
+#include "rvault_session.h"
 
 
 /*
@@ -78,26 +78,20 @@ public:
     /*
      *
      */
-    bool addEntry(RVaultEntry& entry);
-
-    /*
-     *
-     */
-    bool getEntry(uint32_t index, RVaultEntry& out);
-
-    /*
-     *
-     */
-    bool rmEntry(); //implement later
+    bool  save(RVaultSession session, const std::string& filename);
 
     /*
      *
      */
     void close();
 
+    //------ Getters
+
+    RVaultHeader getHeader() const;
+
 private:
     std::fstream file;
-    RVaultFileHeader header;
+    RVaultHeader header;
 };
 
 #endif //RVAULT_RVAULT_FILE_H

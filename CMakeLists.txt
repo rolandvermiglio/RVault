@@ -13,7 +13,7 @@ find_package(unofficial-sodium CONFIG REQUIRED)
 add_executable(rvault
         src/source/rvault_random.c
         src/source/rvault_crypto.c
-        src/source/rvault_auth.c
+        src/source/rvault_auth.cpp
         src/source/rvault_main.cpp
         src/source/rvault_platform.c
         src/headers/rvault_random.h
@@ -24,6 +24,8 @@ add_executable(rvault
         src/headers/rvault_constants.h
         src/source/rvault_file.cpp
         src/headers/rvault_vault.h
+        src/source/rvault_session.cpp
+        src/headers/rvault_session.h
 )
 
 target_link_libraries(rvault PRIVATE unofficial-sodium::sodium)

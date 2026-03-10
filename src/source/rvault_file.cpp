@@ -7,6 +7,7 @@
 #include "../headers/rvault_crypto.h"
 #include "../headers/rvault_random.h"
 #include "../headers/rvault_vault.h"
+#include "../headers/rvault_auth.h"
 #include <optional>
 #include <fstream>
 
@@ -35,7 +36,7 @@ bool RVaultFile::create(const std::string &path, const char *master_pword) {
     }
     uint8_t key[KEY_SIZE];
 
-    rvault_random_bytes(header.salt, KEY_SIZE);
+    rvault_random_bytes(header.salt, SALT_SIZE);
 
     rvault_derive_key(master_pword, header.salt, key, KEY_SIZE);
 
@@ -48,15 +49,16 @@ bool RVaultFile::create(const std::string &path, const char *master_pword) {
 
     file.open(path, std::ios::binary | std::ios::out | std::ios::trunc);
 
-    file.write(reinterpret_cast<const char*>(&header), sizeof(RVaultFileHeader));
+    file.write(reinterpret_cast<const char*>(&header), sizeof(RVaultHeader));
 
     return true;
 }
 
 bool RVaultFile::open(const std::string& path, const char *master_pword, std::vector<RVaultEntry>* entries) {
-    if (path.empty() || !master_pword) {
+    if (path.empty() || !master_pword || !entries) {
         return false;
     }
+
     fs::path pth = path;
     if (!fs::exists(pth)) {
         return false;
@@ -67,27 +69,41 @@ bool RVaultFile::open(const std::string& path, const char *master_pword, std::ve
         return false;
     }
 
-    file.read(reinterpret_cast<char*>(&header), sizeof(header));
+    RVaultHeader temp;
+    file.read(reinterpret_cast<char*>(&temp), sizeof(RVaultHeader));
+    if (!file) {
+        return false;
+    }
 
-    while (!file.eof()) {
+    uint8_t key[KEY_SIZE];
+    if (rvault_authenticate(temp, key) != 0) {
+        file.close();
+        throw INVALID_PASSWORD_ERROR;
+    }
+    header = temp;
+
+    for (uint32_t i = 0; i < header.entry_count; i++) {
         RVaultEntry entry;
         file.read(reinterpret_cast<char*>(&entry), sizeof(RVaultEntry));
-        if (file.fail()) break;
+        if (file.fail()) break; // TODO create a file error handler
         entries->push_back(entry);
     }
     return true;
 }
 
-bool RVaultFile::addEntry(RVaultEntry& entry){
-
-    return true;
-}
-
-bool RVaultFile::getEntry(uint32_t index, RVaultEntry& out){ //may not need
-
-    return true;
+bool RVaultFile::save(const RVaultSession session, const std::string& filename) {
+    file.open(filename, std::ios::binary | std::ios::out | std::ios::trunc);
+    file.write(reinterpret_cast<const char*>(&header), sizeof(header));
+    std::vector<RVaultEntry> entries = session.getEntries();
+    for (int i = 0; i < header.entry_count; i++) {
+        file.write(reinterpret_cast<const char*>(&entries[i]), sizeof(RVaultEntry));
+    }
 }
 
 void RVaultFile::close(){
+    if (file.is_open()) file.close();
+}
 
+RVaultHeader RVaultFile::getHeader() const {
+    return header;
 }
