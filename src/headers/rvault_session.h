@@ -21,27 +21,33 @@ public:
     /*
      * returns the value of a single entry by name
      */
-    RVaultEntry getEntry(const std::string& name);
+    RVaultEntryEncrypted getEntry(const std::string& name);
 
     /*
      * Getter method for the entries vector
      */
-    std::vector<RVaultEntry> RVaultSession::getEntries() const;
+    std::vector<RVaultEntryEncrypted> RVaultSession::getEntries() const;
 
     /*
      *
      */
-    bool addEntry(RVaultEntry* entry);
+    bool addEntry(RVaultEntryEncrypted* entry);
 
     /*
      *
      */
-    bool removeEntry(const std::string& name);
+    bool decryptEntry(RVaultEntryEncrypted entry, RVaultEntryPlain* out);
+
+    /*
+     *
+     */
+    bool removeEntry(const std::string name);
 
 
 private:
-    std::vector<RVaultEntry> entries;
+    std::vector<RVaultEntryEncrypted> entries;
     RVaultHeader header;
+    uint8_t key[KEY_SIZE];
 };
 
 #endif

@@ -73,7 +73,7 @@ public:
      *     Adds an entry to entries vector for each entry in file
      *
      */
-    bool open(const std::string& path, const char *master_pword, std::vector<RVaultEntry>* entries);
+    bool open(const std::string& path, const char *master_pword, std::vector<RVaultEntryEncrypted>* entries);
 
     /*
      *

@@ -40,6 +40,15 @@ typedef struct {
     uint8_t password_nonce[NONCE_SIZE];
     uint32_t password_cipher_len;
     uint8_t password_cipher[MAX_PASSWORD_LEN + CIPHER_SIZE];
-} RVaultEntry;
+} RVaultEntryEncrypted;
+
+/*
+ *
+ */
+typedef struct {
+    uint8_t entry_name[MAX_NAME_LEN];
+    uint8_t username[MAX_USERNAME_LEN];
+    uint8_t password[MAX_PASSWORD_LEN];
+} RVaultEntryPlain;
 
 #endif
