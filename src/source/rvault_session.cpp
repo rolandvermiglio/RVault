@@ -59,7 +59,9 @@ bool RVaultSession::decryptEntry(RVaultEntryEncrypted entry, RVaultEntryPlain* o
     memcpy(out->entry_name, name_plaintext, name_plaintextLen);
     memcpy(out->password, pw_plaintext, pw_plaintextLen);
     memcpy(out->username, username_plaintext, username_plaintextLen);
-    sodium_memzero(&pw_plaintext, sizeof(pw_plaintext));
+    sodium_memzero(pw_plaintext, sizeof(pw_plaintext));
+    sodium_memzero(username_plaintext, sizeof(username_plaintext));
+    sodium_memzero(name_plaintext, sizeof(name_plaintext));
     return true;
 }
 
