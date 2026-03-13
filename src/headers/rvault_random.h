@@ -9,13 +9,8 @@ extern "C" {
 
 
 /*
- *
- *
- *      out - a pointer to there the random bytes eventually go
- *      len length of *out
- *
- *
-*/
+ * Requests random bytes from the operating system
+ */
 int rvault_random_bytes(uint8_t *out, size_t len);
 
 #endif //RVAULT_RVAULT_RANDOM_H

@@ -76,12 +76,12 @@ public:
     bool open(const std::string& path, const char *master_pword, std::vector<RVaultEntryEncrypted>* entries);
 
     /*
-     *
+     * Updates the .rvault file with the up to date list of entries, and header
      */
     bool  save(RVaultSession session, const std::string& filename);
 
     /*
-     *
+     * Frees Memory for current File
      */
     void close();
 

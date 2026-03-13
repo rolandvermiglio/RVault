@@ -34,6 +34,7 @@ int rvault_get_username(char *out);
 
 
 /*
+ * Retrieves the platform that RVault is running on to guarantee compatability
  *platform codes
  * 1229- Windows
  * 1256- Linux

@@ -17,7 +17,8 @@
 
 
 /*
- *
+ * The header, the top of every .rvault file
+ * contains the salt, and an authorization phrase and nonce that is used for determining if the master password is correct
  */
 typedef struct {
     uint8_t salt[SALT_SIZE];
@@ -28,7 +29,8 @@ typedef struct {
 
 
 /*
- *
+ * A vault entry containing the entry name, the username, and the password of the entry in ciphertext.
+ * Contains the nonce and length of the ciphertext for decryption
  */
 typedef struct {
     uint8_t entry_name_nonce[NONCE_SIZE];
@@ -43,7 +45,7 @@ typedef struct {
 } RVaultEntryEncrypted;
 
 /*
- *
+ * An unencrypted plaintext entry containing the entry name, the username, and the password
  */
 typedef struct {
     uint8_t entry_name[MAX_NAME_LEN];

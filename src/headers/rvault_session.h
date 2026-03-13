@@ -9,12 +9,13 @@ class RVaultSession {
 public:
 
     /*
-     *
+     * Session Object Constructor for RVault
+     * Derives key from master password and loads header and entries into memory
      */
     RVaultSession(const char* master_password);
 
     /*
-     *
+     * When the session ends, all the data stored in memory needs to be zeroed for enhanced security
      */
     ~RVaultSession();
 
@@ -29,17 +30,17 @@ public:
     std::vector<RVaultEntryEncrypted> RVaultSession::getEntries() const;
 
     /*
-     *
+     * Adds an encrypted entry to the session's entry list
      */
     bool addEntry(RVaultEntryEncrypted* entry);
 
     /*
-     *
+     * Decrypts an encrypted entry into plaintext and copies it to a PlaintextEntry object
      */
     bool decryptEntry(RVaultEntryEncrypted entry, RVaultEntryPlain* out);
 
     /*
-     *
+     * removes an entry from the list of entries by name
      */
     bool removeEntry(const std::string name);
 
