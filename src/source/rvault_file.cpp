@@ -107,11 +107,11 @@ bool RVaultFile::open(const std::string& path, const char *master_pword, std::ve
     return true;
 }
 
-bool RVaultFile::save(const RVaultSession session, const std::string& filename) {
+bool RVaultFile::save(RVaultSession* session, const std::string& filename) {
     file.open(filename, std::ios::binary | std::ios::out | std::ios::trunc);
-    header.entry_count = session.getEntries().size();
+    header.entry_count = session->getEntries().size();
     file.write(reinterpret_cast<const char*>(&header), sizeof(header));
-    std::vector<RVaultEntryEncrypted> entries = session.getEntries();
+    std::vector<RVaultEntryEncrypted> entries = session->getEntries();
     for (int i = 0; i < entries.size(); i++) {
         file.write(reinterpret_cast<const char*>(&entries[i]), sizeof(RVaultEntryEncrypted));
     }

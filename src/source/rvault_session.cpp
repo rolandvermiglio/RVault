@@ -11,7 +11,7 @@
 namespace fs = std::filesystem;
 
 RVaultSession::RVaultSession(const char* master_password) {
-    fs::path pth = TESTING_PATH;
+    pth = TESTING_PATH;
 
     RVaultFile vault_file;
     bool open;
@@ -26,6 +26,13 @@ RVaultSession::RVaultSession(const char* master_password) {
     header = vault_file.getHeader();
 
     rvault_derive_key(master_password, header.salt, key, KEY_SIZE);
+}
+
+RVaultSession::~RVaultSession() {
+    RVaultFile file;
+
+    file.save(this, pth);
+    sodium_memzero(&entries, entries.size());
 }
 
 bool RVaultSession::addEntry(RVaultEntryEncrypted* entry) {

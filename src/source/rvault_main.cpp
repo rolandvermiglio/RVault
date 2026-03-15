@@ -11,5 +11,6 @@ namespace fs = std::filesystem;
 
 
 int main(void){
+    RVaultSession session = new RVaultSession();
 
 }

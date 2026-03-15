@@ -78,7 +78,7 @@ public:
     /*
      * Updates the .rvault file with the up to date list of entries, and header
      */
-    bool  save(RVaultSession session, const std::string& filename);
+    bool  save(RVaultSession* session, const std::string& filename);
 
     /*
      * Frees Memory for current File

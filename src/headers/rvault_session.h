@@ -1,10 +1,13 @@
 #ifndef RVAULT_RVAULT_SESSION_H
 #define RVAULT_RVAULT_SESSION_H
+#include <filesystem>
+
 #include "rvault_constants.h"
 #include <vector>
 #include "rvault_vault.h"
 #include "rvault_file.h"
 
+namespace fs = std::filesystem;
 class RVaultSession {
 public:
 
@@ -49,6 +52,7 @@ private:
     std::vector<RVaultEntryEncrypted> entries;
     RVaultHeader header;
     uint8_t key[KEY_SIZE];
+    fs::path pth;
 };
 
 #endif

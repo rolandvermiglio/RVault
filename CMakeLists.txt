@@ -27,6 +27,7 @@ add_executable(rvault
         src/source/rvault_session.cpp
         src/headers/rvault_session.h
         src/source/rvault_auth.cpp
+        src/headers/rvault_exception.h
 )
 
 target_link_libraries(rvault PRIVATE unofficial-sodium::sodium)
