@@ -26,6 +26,8 @@
 #ifndef RVAULT_RVAULT_FILE_H
 #define RVAULT_RVAULT_FILE_H
 
+class RVaultSession;
+
 #include "../headers/rvault_constants.h"
 #include "../headers/rvault_vault.h"
 #include <iostream>

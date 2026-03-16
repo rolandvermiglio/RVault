@@ -3,10 +3,9 @@
 #include "../headers/rvault_file.h"
 #include "../headers/rvault_session.h"
 
-#include <stdexcept>
 #include <filesystem>
-#include <cstdlib>
 #include <cstring>
+#include "../headers/rvault_exception.h"
 
 namespace fs = std::filesystem;
 
@@ -16,11 +15,14 @@ RVaultSession::RVaultSession(const char* master_password) {
     RVaultFile vault_file;
     bool open;
     if (!fs::exists(pth)) {
+        std::cout << "No User Detected, Initiating First Time Setup\n";
+
         vault_file.create(pth, master_password);
     } else {
         open = vault_file.open(pth, master_password, &this->entries);
         if (!open) {
-            throw GENERIC_ERROR;
+            std::cout << "Error\n";
+            throw GenericException("Failed to Open File");
         }
     }
     header = vault_file.getHeader();
@@ -53,15 +55,15 @@ bool RVaultSession::decryptEntry(RVaultEntryEncrypted entry, RVaultEntryPlain* o
 
     int status = rvault_decrypt(entry.entry_name_cipher, entry.entry_name_cipher_len, key, name_plaintext, &name_plaintextLen, entry.entry_name_nonce);
     if (status != 0) {
-        throw GENERIC_ERROR; //TODO: Later
+        throw GenericException("Decryption of Entry Name Failed");
     }
     status = rvault_decrypt(entry.username_cipher, entry.username_cipher_len, key, username_plaintext, &username_plaintextLen, entry.username_nonce);
     if (status != 0) {
-        throw GENERIC_ERROR; //TODO: Later
+        throw GenericException("Decryption of Username Failed");
     }
     status = rvault_decrypt(entry.password_cipher, entry.password_cipher_len, key, pw_plaintext, &pw_plaintextLen, entry.password_nonce);
     if (status != 0) {
-        throw GENERIC_ERROR; //TODO: Later
+        throw GenericException("Decryption of Password Failed");
     }
     memcpy(out->entry_name, name_plaintext, name_plaintextLen);
     memcpy(out->password, pw_plaintext, pw_plaintextLen);
@@ -72,18 +74,18 @@ bool RVaultSession::decryptEntry(RVaultEntryEncrypted entry, RVaultEntryPlain* o
     return true;
 }
 
-bool RVaultSession::removeEntry(const std::string name) {
+bool RVaultSession::removeEntry(const std::string& name) {
     for (int i = 0; i < entries.size(); i++) {
-        RVaultEntryPlain* unencrypt = new RVaultEntryPlain;
+        auto* unencrypt = new RVaultEntryPlain;
         try {
             decryptEntry(entries.at(i), unencrypt);
-        } catch (int e) {
+        } catch (GenericException& e) {
             delete unencrypt;
             throw;
         }
 
-        std::string entryname(reinterpret_cast<char*>(unencrypt->entry_name));
-        if (name == entryname) {
+        std::string entry_name(reinterpret_cast<char*>(unencrypt->entry_name));
+        if (name == entry_name) {
             entries.erase(entries.begin() + i);
             delete unencrypt;
             return true;

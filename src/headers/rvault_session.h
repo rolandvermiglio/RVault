@@ -30,7 +30,7 @@ public:
     /*
      * Getter method for the entries vector
      */
-    std::vector<RVaultEntryEncrypted> RVaultSession::getEntries() const;
+    std::vector<RVaultEntryEncrypted> getEntries() const;
 
     /*
      * Adds an encrypted entry to the session's entry list
@@ -45,13 +45,13 @@ public:
     /*
      * removes an entry from the list of entries by name
      */
-    bool removeEntry(const std::string name);
+    bool removeEntry(const std::string& name);
 
 
 private:
     std::vector<RVaultEntryEncrypted> entries;
-    RVaultHeader header;
-    uint8_t key[KEY_SIZE];
+    RVaultHeader header{};
+    uint8_t key[KEY_SIZE]{};
     fs::path pth;
 };
 

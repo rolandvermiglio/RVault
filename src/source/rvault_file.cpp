@@ -11,6 +11,8 @@
 #include <optional>
 #include <fstream>
 
+#include "../headers/rvault_exception.h"
+
 namespace fs = std::filesystem;
 
 
@@ -94,14 +96,14 @@ bool RVaultFile::open(const std::string& path, const char *master_pword, std::ve
     }
     if (rvault_authenticate(temp, key) != 0) {
         file.close();
-        throw INVALID_PASSWORD_ERROR;
+        throw InvalidPasswordException("Incorrect Password");
     }
     header = temp;
 
     for (uint32_t i = 0; i < header.entry_count; i++) {
         RVaultEntryEncrypted entry;
         file.read(reinterpret_cast<char*>(&entry), sizeof(RVaultEntryEncrypted));
-        if (file.fail()) break; // TODO create a file error handler
+        if (file.fail()) break;
         entries->push_back(entry);
     }
     return true;

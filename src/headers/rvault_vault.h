@@ -21,6 +21,7 @@
  * contains the salt, and an authorization phrase and nonce that is used for determining if the master password is correct
  */
 typedef struct {
+    uint8_t owner[VAULT_OWNER_NAME_MAX_LEN];
     uint8_t salt[SALT_SIZE];
     uint8_t auth_nonce[NONCE_SIZE];
     uint8_t auth_phrase[AUTH_PHRASE_CIPHER_SIZE];

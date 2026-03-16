@@ -2,6 +2,7 @@
 #define RVAULT_RVAULT_CONSTANTS_H
 #include <sodium.h>
 
+#define VAULT_OWNER_NAME_MAX_LEN 128
 #define SALT_SIZE crypto_pwhash_SALTBYTES
 #define NONCE_SIZE crypto_aead_xchacha20poly1305_ietf_NPUBBYTES
 #define KEY_SIZE crypto_aead_xchacha20poly1305_ietf_KEYBYTES

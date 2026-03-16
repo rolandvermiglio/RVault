@@ -12,7 +12,7 @@
 /*
  * Determines if the key derived from the master password is valid
  */
-int rvault_authenticate(RVaultHeader header, uint8_t* key);
+int rvault_authenticate(RVaultHeader header, const uint8_t* key);
 
 #endif
 

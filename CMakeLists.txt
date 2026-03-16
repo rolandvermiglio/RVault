@@ -6,9 +6,7 @@ set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
 
-# Find and link libsodium
 
-find_package(unofficial-sodium CONFIG REQUIRED)
 
 add_executable(rvault
         src/source/rvault_random.c
@@ -28,9 +26,24 @@ add_executable(rvault
         src/headers/rvault_session.h
         src/source/rvault_auth.cpp
         src/headers/rvault_exception.h
+        src/source/rvault_exception.cpp
+        src/headers/rvault_ui.h
+        src/source/rvault_ui.cpp
 )
 
-target_link_libraries(rvault PRIVATE unofficial-sodium::sodium)
+# Find and link libsodium
+find_package(unofficial-sodium CONFIG QUIET)
+if(unofficial-sodium_FOUND)
+    target_link_libraries(rvault PRIVATE unofficial-sodium::sodium)
+else()
+    find_path(SODIUM_INCLUDE_DIR sodium.h)
+    find_library(SODIUM_LIBRARY sodium)
+    if(NOT SODIUM_INCLUDE_DIR OR NOT SODIUM_LIBRARY)
+        message(FATAL_ERROR "libsodium not found. Install libsodium-dev.")
+    endif()
+    target_include_directories(rvault PRIVATE ${SODIUM_INCLUDE_DIR})
+    target_link_libraries(rvault PRIVATE ${SODIUM_LIBRARY})
+endif()
 
 #Windows specific
 if(WIN32)

@@ -1,1 +1,2 @@
-TODO- Make own exception handling
+TODO- Make own exception handling <----Comment: Partially done, but right now generic error is used everywhere
+TODO- Add a timer for last attempted master password after 5 failed attempts
